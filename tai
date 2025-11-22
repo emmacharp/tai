@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TAI_LIB="$HOME/.local/lib/tai"
+source "$TAI_LIB/tai-utils.sh"
+
+cmd="${1:-}"
+shift || true
+
+case "$cmd" in
+
+  task)
+    # tai task "refactor this"
+    TASK="$1"
+    ROOT="$(tai_find_project_root)"
+    tai_require_tai_bus "$ROOT"
+    "$TAI_LIB/tai-task.sh" "$TASK" "$ROOT"
+    ;;
+
+  agent-loop)
+    # internal call by tai-split
+    ROOT="${1:-$PWD}"
+    "$TAI_LIB/tai-agent-loop.sh" "$ROOT"
+    ;;
+
+  start)
+    # launch agent loop in background or inside tmux?
+    echo "[tai] start is only via tai split (tmux)."
+    ;;
+
+  split)
+    # tai split inside tmux
+    ROOT="$(tai_find_project_root)"
+    "$TAI_LIB/tai-split.sh" "$ROOT"
+    ;;
+
+  status)
+    ROOT="$(tai_find_project_root)"
+    if [ -f "$ROOT/.tai_bus/status.txt" ]; then
+      cat "$ROOT/.tai_bus/status.txt"
+    else
+      echo "no status"
+    fi
+    ;;
+
+  *)
+    echo "tai — Terminal AI environment"
+    echo ""
+    echo "Subcommands:"
+    echo "  tai task \"…\"     queue task"
+    echo "  tai split           open pane layout (in tmux)"
+    echo "  tai status          show last agent status"
+    echo ""
+    echo "Internal:"
+    echo "  tai agent-loop      (used by tai split)"
+    echo ""
+    echo "Example:"
+    echo "  tai task \"refactor this file\""
+    ;;
+
+esac
