@@ -19,7 +19,7 @@ USER_SHELL="${SHELL:-$(tmux show -g default-shell | awk '{print $2}')}"
 
 # TOP-RIGHT PANE: tai agent
 tmux split-window -h -p 35 -c "$ROOT" \
-    "echo '[tai] agent starting…'; tai agent-loop \"$ROOT\""
+    "echo '[tai] agent starting…'; if [ -x \"$HOME/.local/lib/tai/tai-color.sh\" ]; then tai agent-loop \"$ROOT\" | \"$HOME/.local/lib/tai/tai-color.sh\"; else tai agent-loop \"$ROOT\"; fi"
 
 tmux select-pane -R
 
