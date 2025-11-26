@@ -43,6 +43,11 @@ case "$cmd" in
     fi
     ;;
 
+  exit)
+    # close tai panes inside tmux
+    "$TAI_LIB/tai-exit.sh"
+    ;;
+
   *)
     echo "tai — Terminal AI environment"
     echo ""
