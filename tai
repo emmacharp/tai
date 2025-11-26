@@ -18,13 +18,13 @@ case "$cmd" in
     ;;
 
   agent-loop)
-    # internal call by tai-split
+    # internal call by tai agent
     ROOT="${1:-$PWD}"
     "$TAI_LIB/tai-agent-loop.sh" "$ROOT"
     ;;
 
-  agent | split)
-    # tai agent (alias tai split) opens the standard agent/log panes
+  agent)
+    # tai agent opens the standard agent/log panes
     ROOT="$(tai_find_project_root)"
     "$TAI_LIB/tai-split.sh" "$ROOT"
     ;;
@@ -41,7 +41,7 @@ case "$cmd" in
 
   start)
     # launch agent loop in background or inside tmux?
-    echo "[tai] start is only via tai split (tmux)."
+    echo "[tai] start is only via tai agent (tmux)."
     ;;
 
   status)
@@ -64,13 +64,12 @@ case "$cmd" in
     echo "Subcommands:"
     echo "  tai task \"…\"     queue task"
     echo "  tai agent           open agent/log panes (tmux)"
-    echo "  tai split           alias for tai agent"
     echo "  tai tui             open Codex CLI in a tmux split"
     echo "  tai send \"…\"      send text directly to the tai-tui pane"
     echo "  tai status          show last agent status"
     echo ""
     echo "Internal:"
-    echo "  tai agent-loop      (used by tai split)"
+    echo "  tai agent-loop      (used by tai agent)"
     echo ""
     echo "Example:"
     echo "  tai task \"refactor this file\""
