@@ -34,6 +34,11 @@ case "$cmd" in
     "$TAI_LIB/tai-tui.sh" "$ROOT"
     ;;
 
+  send)
+    ROOT="$(tai_find_project_root)"
+    "$TAI_LIB/tai-send.sh" "$ROOT" "$@"
+    ;;
+
   start)
     # launch agent loop in background or inside tmux?
     echo "[tai] start is only via tai split (tmux)."
@@ -49,8 +54,8 @@ case "$cmd" in
     ;;
 
   exit)
-    # close tai panes inside tmux
-    "$TAI_LIB/tai-exit.sh"
+    ROOT="$(tai_find_project_root)"
+    "$TAI_LIB/tai-exit.sh" "$ROOT"
     ;;
 
   *)
@@ -61,6 +66,7 @@ case "$cmd" in
     echo "  tai agent           open agent/log panes (tmux)"
     echo "  tai split           alias for tai agent"
     echo "  tai tui             open Codex CLI in a tmux split"
+    echo "  tai send \"…\"      send text directly to the tai-tui pane"
     echo "  tai status          show last agent status"
     echo ""
     echo "Internal:"

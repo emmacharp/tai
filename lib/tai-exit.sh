@@ -9,6 +9,9 @@ fi
 
 # current session name
 SESSION="$(tmux display-message -p '#{session_name}')"
+ROOT="${1:-$PWD}"
+BUS="$ROOT/.tai_bus"
+TUI_FILE="$BUS/tui-pane.id"
 
 # close agent/log/tui panes
 tmux list-panes -t "$SESSION" -F '#{pane_id} #{pane_title}' | while read -r pane title; do
@@ -26,4 +29,5 @@ tmux list-panes -t "$SESSION" -F '#{pane_id} #{pane_title}' | while read -r pane
   esac
 done
 
+rm -f "$TUI_FILE"
 echo "[tai] closed agent/log panes in session $SESSION"
