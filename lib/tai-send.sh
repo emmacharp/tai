@@ -3,7 +3,17 @@ set -euo pipefail
 
 ROOT="${1:-$PWD}"
 shift || true
-TEXT="${*:-}"
+
+# Determine the payload: prefer explicit args unless a lone "-" is given, or stdin is piped.
+if [ "$#" -eq 1 ] && [ "$1" = "-" ]; then
+  TEXT="$(cat -)"
+elif [ "$#" -gt 0 ]; then
+  TEXT="$*"
+elif [ -t 0 ]; then
+  TEXT=""
+else
+  TEXT="$(cat -)"
+fi
 
 if [ -z "${TMUX:-}" ]; then
   echo "[tai] ERROR: 'tai send' must be run inside a tmux session."
