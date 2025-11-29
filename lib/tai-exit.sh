@@ -31,3 +31,12 @@ done
 
 rm -f "$TUI_FILE"
 echo "[tai] closed agent/log panes in session $SESSION"
+
+# tidy up the shared bus state when no requests remain
+REQUESTS_DIR="$BUS/requests"
+if [ ! -d "$REQUESTS_DIR" ] || [ -z "$(find "$REQUESTS_DIR" -mindepth 1 -print -quit 2>/dev/null)" ]; then
+  rm -rf "$BUS"
+  echo "[tai] removed empty $BUS"
+else
+  echo "[tai] left $BUS in place because requests/ has pending work"
+fi

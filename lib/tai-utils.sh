@@ -29,3 +29,10 @@ tai_require_tai_bus() {
     local root="$1"
     mkdir -p "$root/.tai_bus/requests" "$root/.tai_bus/responses"
 }
+
+tai_warn_if_subdir() {
+    local root="$1"
+    if [ "$PWD" != "$root" ]; then
+        echo "[tai] WARNING: running from a subdirectory; using $root/.tai_bus for the shared state."
+    fi
+}
